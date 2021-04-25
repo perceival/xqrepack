@@ -54,6 +54,7 @@ grep -q -w enable_dev_access "$FSDIR/lib/preinit/31_restore_nvram" || \
 enable_dev_access() {
 	nvram set uart_en=1
 	nvram set ssh_en=1
+	nvram set telnet_en=0
 	nvram set boot_wait=on
 	nvram commit
 }
@@ -77,7 +78,9 @@ chown root:root "$FSDIR/sbin/xqflash"
 # dont start crap services
 for SVC in stat_points statisticsservice \
 		datacenter \
-		smartcontroller \
+#		smartcontroller \
+		xq_info_sync_mqtt \
+		xiaoqiang_sync \
 		wan_check \
 		plugincenter plugin_start_script.sh cp_preinstall_plugins.sh; do
 	rm -f $FSDIR/etc/rc.d/[SK]*$SVC
@@ -98,7 +101,7 @@ done
 # as a last-ditch effort, change the *.miwifi.com hostnames to localhost
 sed -i 's@\w\+.miwifi.com@localhost@g' $FSDIR/etc/config/miwifi
 
->&2 echo "repacking squashfs..."
-rm -f "$IMG.new"
-mksquashfs "$FSDIR" "$IMG.new" -comp xz -b 256K -no-xattrs
+#>&2 echo "repacking squashfs..."
+#rm -f "$IMG.new"
+#mksquashfs "$FSDIR" "$IMG.new" -comp xz -b 256K -no-xattrs
 
