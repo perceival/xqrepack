@@ -5,6 +5,8 @@
 #
 # 2020.07.20  darell tan
 # 
+#sudo dnf install python3-lzo
+#sudo pip install ubi_reader
 
 set -e
 
@@ -17,8 +19,9 @@ ROOTPW='$1$qtLLI4cm$c0v3yxzYPI46s28rbAYG//'  # "password"
 command -v unsquashfs &>/dev/null || { echo "install unsquashfs"; exit 1; }
 mksquashfs -version >/dev/null || { echo "install mksquashfs"; exit 1; }
 
-FSDIR=`mktemp -d /tmp/resquash-rootfs.XXXXX`
-trap "rm -rf $FSDIR" EXIT
+FSDIR=tmp/resquash-rootfs
+mkdir $FSDIR
+#trap "rm -rf $FSDIR" EXIT
 
 # test mknod privileges
 mknod "$FSDIR/foo" c 0 0 2>/dev/null || { echo "need to be run with fakeroot"; exit 1; }
