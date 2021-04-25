@@ -5,8 +5,9 @@
 #
 # 2020.07.20  darell tan
 # 
-#sudo dnf install python3-lzo
+#sudo dnf install -y python3-lzo
 #sudo pip install ubi_reader
+#sudo dnf install -y mtd-utils
 
 set -e
 
